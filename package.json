@@ -1,0 +1,36 @@
+{
+  "name": "movie_app_v2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server",
+    "server": "nodemon --ignore './client/' server",
+    "client-install": "npm install -prefix client",
+    "client": "npm run start:dev --prefix client",
+    "client-build": "npm run build --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WesamKhalil/movie_app_v2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WesamKhalil/movie_app_v2/issues"
+  },
+  "homepage": "https://github.com/WesamKhalil/movie_app_v2#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "concurrently": "^6.0.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.20"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
