@@ -3,11 +3,15 @@ import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import store from './store'
 import NavBar from './components/NavBar'
+import { loadUser } from './actions/authActions'
 
 export class App extends Component {
 
     async componentDidMount() {
-        if(localStorage.getItem('jwt')) {}
+        if(localStorage.getItem('jwt')) {
+            await store.dispatch(loadUser())
+            alert(store.getState().username)
+        }
     }
 
     render() {
@@ -22,6 +26,7 @@ export class App extends Component {
                         <Route path='/path2'>
                             <h1>Path 2 working.</h1>
                         </Route>
+                        <h1>Footer</h1>
                     </div>
                 </Router>
             </Provider>

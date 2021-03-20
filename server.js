@@ -18,7 +18,7 @@ app.get('*', (req, res) => {
     res.send("Server is working!")
 })
 
-const port = process.env.SERVER_PORT
+const port = process.env.SERVER_PORT || 3000
 app.listen(port, () => {
     console.log(`Listening on port ${port}.`)
 })

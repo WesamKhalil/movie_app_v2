@@ -9,6 +9,6 @@ router.post('/login', loginUser)
 router.post('/register', registerUser)
 
 //Route for loading user data
-router.post('/load', loadUser)
+router.post('/load_user', loadUser)
 
 module.exports = router
