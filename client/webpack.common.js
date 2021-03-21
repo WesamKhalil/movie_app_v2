@@ -21,6 +21,6 @@ module.exports = {
         ]
     },
     plugins: [new HtmlWebpackPlugin({
-        title: 'Movie App'
+        template: 'src/template.html'
     })]
 }

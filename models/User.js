@@ -6,9 +6,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please provide a name."],
         maxLength: [30, "Name can't be longer than 30 characters."],
-        validate: [
-            { validator: isValidName, message: "Name must only contain alphabet characters and spaces." }
-        ]
+        match: [/^[a-zA-Z\s]+$/, "Name must only contain alphabet characters and spaces."]
     },
     email: {
         type: String,
@@ -40,11 +38,6 @@ userSchema.statics.verify = async function(email, password) {
     if(!correctPassword) throw new Error("Incorrect email or password.")
 
     return { name: user.name, _id: user._id }
-}
-
-//Function for validating a valid name format, alphabet characters and spaces only allowed in name.
-function isValidName(name) {
-    return /^[a-zA-Z\s]+$/.test(name)
 }
 
 module.exports = mongoose.model('user', userSchema)

@@ -10,7 +10,6 @@ export class App extends Component {
     async componentDidMount() {
         if(localStorage.getItem('jwt')) {
             await store.dispatch(loadUser())
-            alert(store.getState().username)
         }
     }
 
