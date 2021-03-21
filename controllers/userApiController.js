@@ -8,8 +8,9 @@ const createToken = id => {
 }
 
 //Controller for verifying user info and returning a token
-const loginUser = async (req, res) => {
+const loginUser = async (req, res, next) => {
     const { email, password } = req.body
+    console.log(email, password)
 
     try {
         const { name, _id } = await User.verify(email, password)
@@ -18,12 +19,12 @@ const loginUser = async (req, res) => {
 
         res.json({ name, token })
     } catch(error) {
-        res.sendStatus(400)
+        next(error)
     }
 }
 
 //Controller for registering a new user to the database and return a token
-const registerUser = async (req, res) => {
+const registerUser = async (req, res, next) => {
     try {
         const { _id } = await User.create(req.body)
 
@@ -31,22 +32,22 @@ const registerUser = async (req, res) => {
 
         res.json({ name: req.body.name, token })
     } catch(error) {
-        res.sendStatus(400)
+        next(error)
     }
 }
 
 //Controller for sending user infor to client with an existing token
-const loadUser = async (req, res) => {
+const loadUser = async (req, res, next) => {
     const token = req.header('x-auth-token')
 
     try {
         const { id } = await jwt.verify(token, process.env.JWT_KEY)
 
-        const { name } = await User.findById(id)
+        const user = await User.findById(id)
 
-        res.json({ name })
+        res.json({ name: user.name })
     } catch(error) {
-        res.sendStatus(400)
+        next(error)
     }
 }
 

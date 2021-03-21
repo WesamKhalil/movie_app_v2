@@ -1,0 +1,146 @@
+nav {
+    width: 100%;
+    height: 64px;
+    padding: 0 1.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    box-shadow: 0px 0px 5px #000;
+}
+
+.nav-right-side {
+    height: 45px;
+    width: 45px;
+}
+
+.toggler {
+    position: absolute;
+    display: block;
+    height: 45px;
+    width: 45px;
+    z-index: 6;
+    cursor: pointer;
+    opacity: 0;
+}
+
+.burger {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    transition: transform 0.4s ease;
+    z-index: 5;
+    position: relative;
+}
+
+.first-bar,
+.second-bar,
+.third-bar {
+    width: 100%;
+    height: 3px;
+    background-color: grey;
+}
+
+.toggler:checked + .burger {
+    transform: rotate(135deg);
+}
+
+.toggler:checked + .burger .first-bar,
+.toggler:checked + .burger .third-bar {
+    position: absolute;
+    transform: rotate(90deg);
+}
+
+.toggler:checked:hover + .burger {
+    transform: rotate(225deg);
+}
+
+.toggler:checked ~ .menu {
+    right: 0%;
+}
+
+.menu {
+    width: 50%;
+    height: 100vh;
+    padding: 5rem 0 20rem 0;
+    position: fixed;
+    right: -50%;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    transition: right 0.4s ease;
+    z-index: 4;
+    background-color: white;
+    border-left: 1px solid #000;
+}
+
+.menu-button,
+.menu-button:visited,
+.menu-button:active {
+    display: block;
+    width: 120px;
+    padding: 10px 0;
+    font-size: 1.4rem;
+    text-align: center;
+    color: grey;
+    text-decoration: none;
+    border: 1px solid grey;
+    border-radius: 3px;
+}
+
+.menu-home-button,
+.menu-home-button:visited,
+.menu-home-button:active {
+    color: #000;
+    background-color: lightgray;
+    display: block;
+    width: 150px;
+    padding: 10px 0;
+    font-size: 1.4rem;
+    text-align: center;
+    text-decoration: none;
+}
+
+@media (min-width: 800px) {
+    nav {
+        padding: 0 5rem;
+    }
+
+    .burger, .toggler {
+        display: none;
+    }
+
+    .nav-right-side {
+        height: 64px;
+        width: 30vw;
+    }
+
+    .menu {
+        height: 100%;
+        width: 100%;
+        position: relative;
+        right: 0;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0;
+        border: none;
+    }
+}
+
+@media (min-width: 1280px) {
+    nav {
+        padding: 0 8rem;
+    }
+
+    .nav-right-side {
+        width: 20vw;
+    }
+}

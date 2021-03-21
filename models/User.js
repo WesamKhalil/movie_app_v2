@@ -33,7 +33,6 @@ userSchema.statics.verify = async function(email, password) {
     
     if(!user) throw new Error("User doesn't exist.")
 
-
     const correctPassword = await bcrypt.compare(password, user.password)
     if(!correctPassword) throw new Error("Incorrect email or password.")
 

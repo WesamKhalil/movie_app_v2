@@ -3,7 +3,12 @@ import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import store from './store'
 import NavBar from './components/NavBar'
+import Auth from './components/Auth'
+import LandingPage from './components/LandingPage'
+import ViewMovie from './components/ViewMovie'
+import Favourites from './components/Favourites'
 import { loadUser } from './actions/authActions'
+import './App.css'
 
 export class App extends Component {
 
@@ -17,15 +22,15 @@ export class App extends Component {
         return (
             <Provider store={store}>
                 <Router>
-                    <div>
+                    <div className="app-container">
                         <NavBar />
-                        <Route path='/path1'>
-                            <h1>Path 1 working.</h1>
-                        </Route>
-                        <Route path='/path2'>
-                            <h1>Path 2 working.</h1>
-                        </Route>
-                        <h1>Footer</h1>
+                        <div>
+                            <Route path="/login" component={Auth} />
+                            <Route path="/register" component={Auth} />
+                            <Route exact path="/" component={LandingPage} />
+                            <Route path="/movie/:id" component={ViewMovie} />
+                            <Route path="/favourites" component={Favourites} />
+                        </div>
                     </div>
                 </Router>
             </Provider>

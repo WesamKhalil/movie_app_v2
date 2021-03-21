@@ -1,9 +1,8 @@
 const ErrorResponse = require('../utils/errorResponse')
 
 const errorHandler = (err, req, res, next) => {
-    let error = { ...err }
-
-    error.message = err.message
+    let error = {}
+    Object.getOwnPropertyNames(err).forEach(key => error[key] = err[key] , err);
 
     if(err.code === 11000) {
         const message = "Duplicate field value entered."
