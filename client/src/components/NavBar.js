@@ -4,6 +4,14 @@ import { connect } from 'react-redux'
 import { logout } from '../actions/authActions'
 import './styles/NavBar.css'
 
+//Things to do
+//Add colours
+//Potentially make navbar background colour transparent
+//Change responsve sizes
+//Add shadows
+//Add animations
+//Remove flex from right menu buttons
+
 const MenuLoggedIn = (props) => (
     <React.Fragment>
         <Link to="/favourites" className="menu-button">Favourites</Link>
@@ -23,9 +31,9 @@ export class NavBar extends Component {
     render() {
         return (
             <nav>
-                <div>
+                <div className="nav-left-side">
                     <Link to="/" className="menu-home-button">Landing Page</Link>
-                    <h3>{this.props.user.username}</h3>
+                    { this.props.user.isLoggedIn ? <div className="nav-name"><h3>Welcome, {this.props.user.username}</h3></div> : null }
                 </div>
                 <div className="nav-right-side">
                     <input type="checkbox" className="toggler" />
