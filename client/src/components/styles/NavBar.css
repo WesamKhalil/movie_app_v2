@@ -94,6 +94,7 @@ nav {
     text-decoration: none;
     border: 1px solid grey;
     border-radius: 3px;
+    cursor: pointer;
 }
 
 .menu-home-button,

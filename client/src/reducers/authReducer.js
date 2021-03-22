@@ -15,7 +15,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 isLoggedIn: true,
-                username: action.payload.name
+                ...action.payload
             }
         // case LOGIN_FAILED:
         // case REGISTER_FAILED:

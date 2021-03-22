@@ -4,28 +4,29 @@ import { connect } from 'react-redux'
 import { logout } from '../actions/authActions'
 import './styles/NavBar.css'
 
+const MenuLoggedIn = (props) => (
+    <React.Fragment>
+        <Link to="/favourites" className="menu-button">Favourites</Link>
+        <a onClick={props.logout()} className="menu-button">Logout</a>
+    </React.Fragment>
+)
+
+const MenuLoggedOut = () => (
+    <React.Fragment>
+        <Link to="/login" className="menu-button">Login</Link>
+        <Link to="/register" className="menu-button">Register</Link>
+    </React.Fragment>
+)
+
 export class NavBar extends Component {
-
-    authButtons = () => {
-        if(this.props.user.isLoggedIn) return (
-            <React.Fragment>
-                <div className="menu-button"><Link to="/favourites">Favourites</Link></div>
-                <a onClick={() => this.props.logout()} className="menu-button">Logout</a>
-            </React.Fragment>
-        )
-
-        return (
-            <React.Fragment>
-                <div><Link to="/login" className="menu-button">Login</Link></div>
-                <div><Link to="/register" className="menu-button">Register</Link></div>
-            </React.Fragment>
-        )
-    }
 
     render() {
         return (
             <nav>
-                <div><Link to="/" className="menu-home-button">Landing Page</Link></div>
+                <div>
+                    <Link to="/" className="menu-home-button">Landing Page</Link>
+                    <h3>{this.props.user.username}</h3>
+                </div>
                 <div className="nav-right-side">
                     <input type="checkbox" className="toggler" />
                     <div className="burger">
@@ -34,7 +35,7 @@ export class NavBar extends Component {
                         <div className="third-bar"></div>
                     </div>
                     <div className="menu">
-                        { this.authButtons() }
+                        { this.props.user.isLoggedIn ? <MenuLoggedIn logout={() => this.props.logout}/> : <MenuLoggedOut /> }
                     </div>
                 </div>
             </nav>
@@ -43,7 +44,7 @@ export class NavBar extends Component {
 }
 
 const mapStateToProps = state => ({
-    user: state
+    user: state.auth
 })
 
 export default connect(mapStateToProps, { logout })(NavBar)

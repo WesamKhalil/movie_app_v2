@@ -2,11 +2,17 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 
 const userSchema = new mongoose.Schema({
-    name: {
+    first_name: {
         type: String,
         required: [true, "Please provide a name."],
-        maxLength: [30, "Name can't be longer than 30 characters."],
-        match: [/^[a-zA-Z\s]+$/, "Name must only contain alphabet characters and spaces."]
+        maxLength: [20, "First name can't be longer than 20 characters."],
+        match: [/^[a-zA-Z]+$/, "Name must only contain alphabet characters."]
+    },
+    last_name: {
+        type: String,
+        required: [true, "Please provide a name."],
+        maxLength: [20, "Last name can't be longer than 20 characters."],
+        match: [/^[a-zA-Z]+$/, "Name must only contain alphabet characters."]
     },
     email: {
         type: String,
@@ -29,14 +35,15 @@ userSchema.pre('save', async function(next) {
 
 //Create a user verification function on the User model to use in the userApiController.
 userSchema.statics.verify = async function(email, password) {
-    const user = await this.findOne({ email }).select('name password').lean()
+    const user = await this.findOne({ email }).select('first_name last_name password').lean()
+    const { first_name, last_name, _id } = user
     
     if(!user) throw new Error("User doesn't exist.")
 
     const correctPassword = await bcrypt.compare(password, user.password)
     if(!correctPassword) throw new Error("Incorrect email or password.")
 
-    return { name: user.name, _id: user._id }
+    return { first_name, last_name, _id }
 }
 
 module.exports = mongoose.model('user', userSchema)

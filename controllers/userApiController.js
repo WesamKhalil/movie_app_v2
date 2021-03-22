@@ -10,14 +10,13 @@ const createToken = id => {
 //Controller for verifying user info and returning a token
 const loginUser = async (req, res, next) => {
     const { email, password } = req.body
-    console.log(email, password)
 
     try {
-        const { name, _id } = await User.verify(email, password)
+        const { first_name, last_name, _id } = await User.verify(email, password)
 
         const token = await createToken(_id)
 
-        res.json({ name, token })
+        res.json({ first_name, last_name, token })
     } catch(error) {
         next(error)
     }
@@ -30,7 +29,7 @@ const registerUser = async (req, res, next) => {
 
         const token = await createToken(_id)
 
-        res.json({ name: req.body.name, token })
+        res.json({ token })
     } catch(error) {
         next(error)
     }
@@ -43,9 +42,9 @@ const loadUser = async (req, res, next) => {
     try {
         const { id } = await jwt.verify(token, process.env.JWT_KEY)
 
-        const user = await User.findById(id)
+        const { first_name, last_name } = await User.findById(id)
 
-        res.json({ name: user.name })
+        res.json({ first_name, last_name })
     } catch(error) {
         next(error)
     }
