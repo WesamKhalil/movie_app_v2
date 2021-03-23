@@ -7,13 +7,14 @@ module.exports = merge(common, {
     mode: "development",
     devtool: 'inline-source-map',
     devServer: {
-        contentBase: path.resolve(__dirname, 'src/index.html'),
+        contentBase: path.resolve(__dirname, 'src'),
         port: (process.env.CLIENT_PORT || 8080),
         open: true,
         hot: true,
         proxy: {
             "/api": "http://localhost:" + (process.env.SERVER_PORT || 3000)
         },
-        historyApiFallback: true
-    },
+        historyApiFallback: true,
+        host: 'localhost'
+    }
 })

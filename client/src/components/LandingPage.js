@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 import './styles/LandingPage.css'
 
 const apiKey = '4769fe382f408f9f9d8c072498e10703'
 const featured = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${apiKey}`
+// const specificMovie = `https://api.themoviedb.org/3/${movieid}?api_key=${apiKey}`
 const search = `https://api.themoviedb.org/3/search/movie?&api_key=${apiKey}&query=`
 const image = 'https://image.tmdb.org/t/p/'
 
@@ -56,18 +58,20 @@ export class LandingPage extends Component {
                     <input type="text" placeholder="Search for movies"/>
                 </div>
                 <div className="movies-container">
-                    { this.state.movies.map(({ title, overview, poster_path, vote_average }, ind) => (
-                        <div key={'movies' + ind} className="preview-movie">
-                            <img src={image + 'w300' + poster_path}/>
-                            <div className="preview-info">
-                                <h3>{title}</h3>
-                                <div className="preview-rating">{vote_average}</div>
+                    { this.state.movies.map(({ title, overview, poster_path, vote_average, id }, ind) => (
+                        <Link to={'/movie/' + id} className="movie-link" key={'movies' + ind}>
+                            <div className="preview-movie">
+                                <img src={image + 'w300' + poster_path}/>
+                                <div className="preview-info">
+                                    <h3>{title}</h3>
+                                    <div className="preview-rating">{vote_average}</div>
+                                </div>
+                                <div className="preview-overview">
+                                    <h2>Overview</h2>
+                                    <p>{overview}</p>
+                                </div>
                             </div>
-                            <div className="preview-overview">
-                                <h2>Overview</h2>
-                                <p>{overview}</p>
-                            </div>
-                        </div>
+                        </Link>
                     )) }
                 </div>
                 <div className="landing-load-more">

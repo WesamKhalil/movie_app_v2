@@ -42,12 +42,20 @@
     justify-items: center;
 }
 
+.movie-link,
+.movie-link:visited,
+.movie-link:active {
+    text-decoration: none;
+    color: none;
+}
+
 .preview-movie {
     width: 300px;
-    border: 1px solid #000;
+    border: 1px solid black;
     border-radius: 5px;
     overflow: hidden;
     position: relative;
+    color: black;
 }
 
 .preview-info {
