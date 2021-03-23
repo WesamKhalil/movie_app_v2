@@ -5,6 +5,7 @@ import './styles/ViewMovie.css'
 const apiKey = '4769fe382f408f9f9d8c072498e10703'
 const image = 'https://image.tmdb.org/t/p/'
 // const specificMovie = `https://api.themoviedb.org/3/${movieid}?api_key=${apiKey}`
+// const actors = `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`
 
 
 export class ViewMovie extends Component {
@@ -12,7 +13,8 @@ export class ViewMovie extends Component {
         super(props)
 
         this.state = {
-            movie: {}
+            movie: {},
+            actors: []
         }
     }
 
@@ -22,6 +24,13 @@ export class ViewMovie extends Component {
         const res = await axios.get(movieUrl)
         console.log(res)
         this.setState({ movie: res.data })
+    }
+
+    loadActors = async () => {
+        const movieId = this.props.match.params.id
+        const res = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`)
+        console.log(res.data.cast)
+        this.setState({ actors: res.data.cast })
     }
 
     render() {
@@ -36,7 +45,7 @@ export class ViewMovie extends Component {
                         <p className="view-banner-overview">{movie?.overview}</p>
                     </div>
                 </div>
-                <h2>Movie Info</h2>
+                <h2 className="view-info-title">Movie Info</h2>
                 <div className="view-info">
                     <div className="info-group">
                         <div className="info-pair">
@@ -80,6 +89,20 @@ export class ViewMovie extends Component {
                             <div className="info-value">${movie.budget}</div>
                         </div>
                     </div>
+                </div>
+                <div className="load-actors">
+                    { this.state.actors.length < 1 ? <button onClick={this.loadActors}>View Actors</button> : null }
+                </div>
+                <div className="actors-container">
+                    { this.state.actors.map(({ name, profile_path, character }) => (
+                        <div className="view-actor">
+                            <img src={image + 'w300' + profile_path} />
+                            <div className="actor-info">
+                                <div className="actor-chara"><span className="chara-name">Character:</span> {character}</div>
+                                <div className="actor-name"><span className="chara-name">Actors Name:</span> {name}</div>
+                            </div>
+                        </div>
+                    )) }
                 </div>
             </div>
         )
