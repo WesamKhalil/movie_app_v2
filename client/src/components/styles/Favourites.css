@@ -25,27 +25,80 @@
     width: 120px;
 }
 
-.favourite-list-header th:nth-child(3) {
-    width: 100px
-}
-
-.favourites-list tr td {
-    /* width: 160px; */
+.favourite-movie-title,
+.favourite-movie-runtime {
     border: 1px solid #000;
     background-color: lightgray;
     padding-left: 10px;
 }
 
-.favourites-list tr td:nth-child(3) {
-    width: 100px;
-    padding: 0;
-}
-
-.favourites-list tr button {
+.favourite-movie-delete {
     background-color: #f00;
     color: #fff;
     width: 100px;
-    margin: auto;
-    /* padding: 0.5rem; */
     font-size: 1.2rem;
+}
+
+@media (min-width: 800px) {
+    .favourites-list {
+        width: 640px;
+    }
+
+    .favourite-list-header th {
+        height: 35px;
+    }
+
+    .favourite-list-header th:nth-child(1) {
+        width: 370px;
+    }
+    
+    .favourite-list-header th:nth-child(2) {
+        width: 140px;
+    }
+    .favourite-movie-delete {
+        width: 130px;
+    }
+
+    .favourite-movie-title,
+    .favourite-movie-runtime {
+        height: 35px;
+        padding: 0 1.2rem;
+    }
+
+    .favourite-movie-delete {
+        height: 35px;
+    }
+}
+
+@media (min-width: 1280px) {
+    .favourites-list {
+        width: 1000px;
+    }
+
+    .favourite-list-header th {
+        height: 50px;
+        font-size: 1.25rem;
+    }
+
+    .favourite-list-header th:nth-child(1) {
+        width: 650px;
+    }
+    
+    .favourite-list-header th:nth-child(2) {
+        width: 200px;
+    }
+    .favourite-movie-delete {
+        width: 150px;
+    }
+
+    .favourite-movie-title,
+    .favourite-movie-runtime {
+        height: 40px;
+        padding: 0 2rem;
+        font-size: 1.1rem;
+    }
+
+    .favourite-movie-delete {
+        height: 40px;
+    }
 }

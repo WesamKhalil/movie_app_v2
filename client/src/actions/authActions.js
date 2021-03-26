@@ -10,7 +10,6 @@ export const login = (email, password) => async (dispatch) => {
             type: LOGIN_SUCCESS,
             payload: { username: first_name + ' ' + last_name }
         })
-        // console.log('Dispatching for ')
         dispatch({
             type: LOAD_FAVOURITES_SUCCESS,
             payload: favourites
@@ -42,7 +41,9 @@ export const register = (first_name, last_name, email, password) => async (dispa
 
 //Action for deleting your token
 export const logout = () => async (dispatch) => {
+
     localStorage.removeItem('jwt')
+
     dispatch({
         type: LOGOUT_SUCCESS,
         payload: {}
@@ -53,17 +54,17 @@ export const logout = () => async (dispatch) => {
 export const loadUser = () => async (dispatch) => {
     try {
         const { first_name, last_name, favourites } = (await axios.post('/api/user/load_user', {}, tokenConfig())).data
-        console.log('Before start of dispatch')
-        dispatch({
-            type: LOAD_FAVOURITES_SUCCESS,
-            payload: favourites
-        })
-        console.log('Dispatch load user done')
+
         dispatch({
             type: LOAD_USER_SUCCESS,
             payload: { username: first_name + ' ' + last_name }
         })
-        console.log('Dispatch load favourites done')
+
+        const favouritesData = await fetchFavourites(favourites)
+        dispatch({
+            type: LOAD_FAVOURITES_SUCCESS,
+            payload: favouritesData
+        })
 
     } catch(error) {
         dispatch({
@@ -73,6 +74,7 @@ export const loadUser = () => async (dispatch) => {
     }
 }
 
+//Configures our header with our token attached to it
 const tokenConfig = () => {
     const token = localStorage.getItem('jwt')
     return {
@@ -80,4 +82,19 @@ const tokenConfig = () => {
             "x-auth-token": token
         }
     }
+}
+
+//Function for fetching data of the movie id's we have in the favourites
+//Maybe I should store the whole movie object into my database instead of the movie id
+//But then some values for movies change so fetching it on the client from TMDB gives me up to date information
+const fetchFavourites = async (favourites) => {
+    const apiKey = '4769fe382f408f9f9d8c072498e10703'
+
+    const promises = favourites.map(movieId => axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`))
+        
+    let res = await Promise.all(promises)
+
+    res = res.map(pureResponse => pureResponse.data)
+
+    return res
 }

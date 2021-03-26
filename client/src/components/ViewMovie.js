@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addFavourite } from '../actions/movieActions'
+import { addFavouriteMovie, deleteFavouriteMovie } from '../actions/movieActions'
 import axios from 'axios'
 import './styles/ViewMovie.css'
 
@@ -37,6 +37,19 @@ export class ViewMovie extends Component {
         this.setState({ actors: res.data.cast })
     }
 
+    renderFavouriteButton = () => {
+        if(!this.props.user.isLoggedIn) return null
+
+        const movieId = parseInt(this.props.match.params.id)
+        const existsInFavourites = this.props.movie.favourites.some(movie => movie.id === movieId)
+
+        if(existsInFavourites) return (
+            <button onClick={() => this.props.deleteFavouriteMovie(movieId)}>Delete from Favourites</button>
+        )
+
+        return ( <button onClick={() => this.props.addFavouriteMovie(movieId)} >Add to Favourites</button> )
+    }
+
     render() {
 
         const movie = this.state.movie
@@ -52,9 +65,9 @@ export class ViewMovie extends Component {
                     </div>
                 </div>
                 
-                {/* Add to favourites button */}
+                {/* Add or delete to favourites button */}
                 <div className="favourites-button-container">
-                    { this.props.user.isLoggedIn ? <button onClick={this.props.addFavourite(movieId)} >Add to Favourites</button> : null }
+                    { this.renderFavouriteButton() }
                 </div>
 
                 <h2 className="view-info-title">Movie Info</h2>
@@ -128,7 +141,8 @@ export class ViewMovie extends Component {
 }
 
 const mapStateToProps = state => ({
-    user: state.auth
+    user: state.auth,
+    movie: state.movie
 })
 
-export default connect(mapStateToProps, { addFavourite })(ViewMovie)
+export default connect(mapStateToProps, { addFavouriteMovie, deleteFavouriteMovie })(ViewMovie)

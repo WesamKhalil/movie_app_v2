@@ -28,12 +28,13 @@ const deleteFavourite = async (req, res, next) => {
 
         let user = await User.findById(id)
 
-        user.favourites.filter(movie => movie != oldFavourite)
+        user.favourites = user.favourites.filter(movie => movie != oldFavourite)
 
         await user.save()
 
         res.sendStatus(200)
     } catch(error) {
+        console.log(error)
         next(error)
     }
 }
