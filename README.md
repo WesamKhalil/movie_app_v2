@@ -1,3 +1,8 @@
+This is a movie app where you can view movies and information about them by clicking on said movie. You can create an account to add movies to your favourites list.  
+This is a single page application made using React, React Router and Redux.  
+The back end uses Node and Express to send files and provide API's.  
+User information is stored in MongoDB and uses Mongoose for queries to said Mongo database.  
+
 To get the app working do the following.  
 
 Make sure you have Node JS installed, I'm using node version 15.5.0.
@@ -19,3 +24,9 @@ If you want to transpile the react code into a bundle to update the application 
 To run the production build type in the terminal "npm run start" and navigate to "http://localhost:" + the SERVER_PORT value you put in the ".env" file.  
   
 To run this application for development type in your terminal "npm run dev" to run the back end and client server simultaneously, a window/tab should open up automatically in your browser to show you the app.  
+
+Todo list:  
+Add colours and animations.  
+Add remember me functionality for logging in and registering.  
+Add like button functionality.  
+Add comment functionality.  
