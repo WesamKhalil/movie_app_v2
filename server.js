@@ -3,6 +3,7 @@ const app = express()
 require("dotenv").config()
 const connectDB = require('./config/db.js')
 const apiUserRoutes = require('./routes/api/user')
+const apiMovieRoutes = require('./routes/api/movie')
 const ErrorHandler = require('./middleware/error')
 
 //Connect to Mongo database.
@@ -15,6 +16,9 @@ app.use(express.static(__dirname + '/public'))
 
 //This provides the user api for handling users
 app.use('/api/user', apiUserRoutes)
+
+//This provides the movie api for handling movie data
+app.use('/api/movie', apiMovieRoutes)
 
 app.get(['/', '/login', '/register', '/movie/:id', '/favourites'], (req, res) => {
     res.sendFile(__dirname + '/public/index.html')

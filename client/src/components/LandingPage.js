@@ -29,11 +29,13 @@ export class LandingPage extends Component {
 
 
     async componentDidMount() {
+        //Get featured movies and store it in state
         const res = await axios.get(featured)
         console.log(res.data)
         this.setState({ movies: res.data.results })
     }
 
+    //Load more featured movies by incrementing the state page value and passing it into TMDB api
     loadMore = async() => {
         const res = await axios.get(featured + '&page=' + (this.state.page + 1))
         this.setState(prevState => ({
@@ -48,15 +50,21 @@ export class LandingPage extends Component {
 
         return (
             <div className="landing-container">
+
+                {/* Banner showing the most popular movie as a banner with a description */}
                 <div className="landing-banner" style={{backgroundImage: 'url(' + image + 'original' + bannerMovie?.backdrop_path + ')'}}>
                     <div className="landing-banner-text">
                         <h1 className="landing-banner-title">{bannerMovie?.title}</h1>
                         <p className="landing-banner-overview">{bannerMovie?.overview}</p>
                     </div>
                 </div>
+
+                {/* Search input for searching specific movies */}
                 <div className="landing-search">
                     <input type="text" placeholder="Search for movies"/>
                 </div>
+
+                {/* Where we render the displayed movies on the landing page */}
                 <div className="movies-container">
                     { this.state.movies.map(({ title, overview, poster_path, vote_average, id }, ind) => (
                         <Link to={'/movie/' + id} className="movie-link" key={'movies' + ind}>
@@ -74,9 +82,12 @@ export class LandingPage extends Component {
                         </Link>
                     )) }
                 </div>
+
+                {/* Button for loading for featured movies */}
                 <div className="landing-load-more">
                     <button onClick={this.loadMore}>Load More</button>
                 </div>
+                
             </div>
         )
     }

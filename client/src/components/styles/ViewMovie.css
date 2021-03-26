@@ -63,6 +63,20 @@
     background-color: gray;
 }
 
+/* Styling for button to add a movie to your favourites */
+.favourites-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+
+.favourites-button-container button {
+    padding: 0.5rem 1rem;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
 .load-actors {
     width: 100%;
     display: flex;

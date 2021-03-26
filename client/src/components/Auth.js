@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { login, register } from '../actions/authActions'
 import './styles/Auth.css'
 
+//Component for rendering a first and last name input for registering
 const NameInput = () => (
     <React.Fragment>
         <input type="text" name="first_name" className="auth-input" placeholder="First Name" autoComplete="off" />
@@ -10,6 +11,7 @@ const NameInput = () => (
     </React.Fragment>
 )
 
+//Component for both logging in and registering
 export class Auth extends Component {
     constructor(props) {
         super(props)
@@ -20,12 +22,15 @@ export class Auth extends Component {
     }
 
     componentDidMount() {
+        //If user is already logged in redirect them to ladning page
         if(this.props.isLoggedIn) this.props.history.push('/')
 
+        //Set action value in state to determine if user is registering or logging in
         const action = this.props.location.pathname === '/register' ? 'Register' : 'Login'
         this.setState({ action })
     }
 
+    //Function for handling submitting a login or registering form
     handleSubmit = async (e) => {
         e.preventDefault()
 

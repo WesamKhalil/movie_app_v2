@@ -12,11 +12,11 @@ const loginUser = async (req, res, next) => {
     const { email, password } = req.body
 
     try {
-        const { first_name, last_name, _id } = await User.verify(email, password)
+        const { first_name, last_name, favourites, _id } = await User.verify(email, password)
 
         const token = await createToken(_id)
 
-        res.json({ first_name, last_name, token })
+        res.json({ first_name, last_name, favourites, token })
     } catch(error) {
         next(error)
     }
@@ -42,9 +42,9 @@ const loadUser = async (req, res, next) => {
     try {
         const { id } = await jwt.verify(token, process.env.JWT_KEY)
 
-        const { first_name, last_name } = await User.findById(id)
+        const { first_name, last_name, favourites } = await User.findById(id)
 
-        res.json({ first_name, last_name })
+        res.json({ first_name, last_name, favourites })
     } catch(error) {
         next(error)
     }

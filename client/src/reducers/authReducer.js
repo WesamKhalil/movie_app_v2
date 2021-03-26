@@ -26,7 +26,8 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 isLoggedIn: false,
-                username: null
+                username: null,
+                favourites: []
             }
         default:
             return {

@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { addFavourite } from '../actions/movieActions'
 import axios from 'axios'
 import './styles/ViewMovie.css'
 
@@ -18,6 +20,7 @@ export class ViewMovie extends Component {
         }
     }
 
+    // Get the information on the specific movie being viewed and putting info in state
     async componentDidMount() {
         const movieId = this.props.match.params.id
         const movieUrl = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`
@@ -26,6 +29,7 @@ export class ViewMovie extends Component {
         this.setState({ movie: res.data })
     }
 
+    // Function for loading actors information into state
     loadActors = async () => {
         const movieId = this.props.match.params.id
         const res = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`)
@@ -36,16 +40,26 @@ export class ViewMovie extends Component {
     render() {
 
         const movie = this.state.movie
+        const movieId = this.props.match.params.id
 
         return (
             <div>
+                {/* Banner of the movie being viewed */}
                 <div className="view-banner" style={{backgroundImage: 'url(' + image + 'original' + movie?.backdrop_path + ')'}}>
                     <div className="landing-banner-text">
                         <h1 className="view-banner-title">{movie?.title}</h1>
                         <p className="view-banner-overview">{movie?.overview}</p>
                     </div>
                 </div>
+                
+                {/* Add to favourites button */}
+                <div className="favourites-button-container">
+                    { this.props.user.isLoggedIn ? <button onClick={this.props.addFavourite(movieId)} >Add to Favourites</button> : null }
+                </div>
+
                 <h2 className="view-info-title">Movie Info</h2>
+
+                {/* Information for the selected movie */}
                 <div className="view-info">
                     <div className="info-group">
                         <div className="info-pair">
@@ -90,9 +104,13 @@ export class ViewMovie extends Component {
                         </div>
                     </div>
                 </div>
+
+                {/* Button for loading actors */}
                 <div className="load-actors">
                     { this.state.actors.length < 1 ? <button onClick={this.loadActors}>View Actors</button> : null }
                 </div>
+
+                {/* Where we render actors images and names */}
                 <div className="actors-container">
                     { this.state.actors.map(({ name, profile_path, character }) => (
                         <div className="view-actor">
@@ -109,4 +127,8 @@ export class ViewMovie extends Component {
     }
 }
 
-export default ViewMovie
+const mapStateToProps = state => ({
+    user: state.auth
+})
+
+export default connect(mapStateToProps, { addFavourite })(ViewMovie)

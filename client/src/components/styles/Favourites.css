@@ -1,0 +1,51 @@
+.favourites-container {
+    padding-top: 3rem;
+}
+
+.favourites-title {
+    text-align: center;
+}
+
+.favourites-list {
+    width: 480px;
+    margin: auto;
+    margin-top: 2rem;
+}
+
+.favourite-list-header th {
+    border: 1px solid #000;
+    background-color: gray;
+}
+
+.favourite-list-header th:nth-child(1) {
+    width: 260px;
+}
+
+.favourite-list-header th:nth-child(2) {
+    width: 120px;
+}
+
+.favourite-list-header th:nth-child(3) {
+    width: 100px
+}
+
+.favourites-list tr td {
+    /* width: 160px; */
+    border: 1px solid #000;
+    background-color: lightgray;
+    padding-left: 10px;
+}
+
+.favourites-list tr td:nth-child(3) {
+    width: 100px;
+    padding: 0;
+}
+
+.favourites-list tr button {
+    background-color: #f00;
+    color: #fff;
+    width: 100px;
+    margin: auto;
+    /* padding: 0.5rem; */
+    font-size: 1.2rem;
+}
