@@ -13,7 +13,7 @@ import './App.css'
 export class App extends Component {
 
     async componentDidMount() {
-        if(localStorage.getItem('jwt')) {
+        if(localStorage.getItem('jwt') || sessionStorage.getItem('jwt')) {
             await store.dispatch(loadUser())
         }
     }

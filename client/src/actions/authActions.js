@@ -2,10 +2,12 @@ import { LOGIN_SUCCESS, LOGOUT_SUCCESS, REGISTER_SUCCESS, LOAD_USER_SUCCESS, LOA
 import axios from 'axios'
 
 //Action for logging in user and getting token from the api
-export const login = (email, password) => async (dispatch) => {
+export const login = (email, password, remember) => async (dispatch) => {
     try {
         const { first_name, last_name, favourites, token } = (await axios.post('/api/user/login', { email, password })).data
-        localStorage.setItem('jwt', token)
+
+        remember ? localStorage.setItem('jwt', token) : sessionStorage.setItem('jwt', token)
+
         dispatch({
             type: LOGIN_SUCCESS,
             payload: { username: first_name + ' ' + last_name }
@@ -23,10 +25,12 @@ export const login = (email, password) => async (dispatch) => {
 }
 
 //Action for registering a user on the database and getting a token
-export const register = (first_name, last_name, email, password) => async (dispatch) => {
+export const register = (first_name, last_name, email, password, remember) => async (dispatch) => {
     try {
         const { token } = (await axios.post('/api/user/register', { first_name, last_name, email, password })).data
-        localStorage.setItem('jwt', token)
+
+        remember ? localStorage.setItem('jwt', token) : sessionStorage.setItem('jwt', token)
+
         dispatch({
             type: REGISTER_SUCCESS,
             payload: { username: first_name + ' ' + last_name }
@@ -43,6 +47,7 @@ export const register = (first_name, last_name, email, password) => async (dispa
 export const logout = () => async (dispatch) => {
 
     localStorage.removeItem('jwt')
+    sessionStorage.removeItem('jwt')
 
     dispatch({
         type: LOGOUT_SUCCESS,
@@ -76,7 +81,8 @@ export const loadUser = () => async (dispatch) => {
 
 //Configures our header with our token attached to it
 const tokenConfig = () => {
-    const token = localStorage.getItem('jwt')
+    const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt')
+    console.log('token config ', token)
     return {
         headers: {
             "x-auth-token": token

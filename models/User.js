@@ -26,7 +26,8 @@ const userSchema = new mongoose.Schema({
         required: [true, "Please provide a password."],
     },
     favourites: {
-        type: Array
+        type: Array,
+        default: []
     }
 })
 

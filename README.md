@@ -27,6 +27,6 @@ To run this application for development type in your terminal "npm run dev" to r
 
 Todo list:  
 Add colours and animations.  
-Add remember me functionality for logging in and registering.  
+Add movie search functionality.  
 Add like button functionality.  
 Add comment functionality.  

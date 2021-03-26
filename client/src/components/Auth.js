@@ -36,14 +36,16 @@ export class Auth extends Component {
 
         const email = e.target.email.value
         const password = e.target.password.value
+        const remember = e.target.remember.checked
+        console.log(e.target.remember.checked)
 
         try {
             if(this.props.location.pathname === '/register') {
                 const first_name = e.target.first_name.value
                 const last_name = e.target.last_name.value
-                await this.props.register(first_name, last_name, email, password)
+                await this.props.register(first_name, last_name, email, password, remember)
             } else {
-                await this.props.login(email, password)
+                await this.props.login(email, password, remember)
             }
 
             this.props.history.push('/')
@@ -64,6 +66,10 @@ export class Auth extends Component {
                         { action === 'Register' ? <NameInput /> : null }
                         <input type="email" name="email" className="auth-input" placeholder="Email" />
                         <input type="password" name="password" placeholder="Password" className="auth-input" />
+                        <div className="checkbox-container">
+                            <input type="checkbox" name="remember" id="remember" className="remember-me"/>
+                            <label id="remember" >remember me.</label>
+                        </div>
                         <button className="auth-btn">{action}</button>
                     </form>
                 </div>
