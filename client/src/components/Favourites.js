@@ -15,10 +15,12 @@ export class Favourites extends Component {
         }
     }
 
+    //Redirect to landing page if user is logged out
     componentDidMount() {
         if(!this.props.user.isLoggedIn) this.props.history.push('/')
     }
 
+    //Redirect to landing page if user is logged out
     componentDidUpdate(prevProps) {
         if(!this.props.user.isLoggedIn) this.props.history.push('/')
     }

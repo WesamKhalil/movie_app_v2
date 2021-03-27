@@ -4,9 +4,8 @@ import axios from 'axios'
 import './styles/LandingPage.css'
 
 const apiKey = '4769fe382f408f9f9d8c072498e10703'
-const featured = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${apiKey}`
-// const specificMovie = `https://api.themoviedb.org/3/${movieid}?api_key=${apiKey}`
-const search = `https://api.themoviedb.org/3/search/movie?&api_key=${apiKey}&query=`
+const featuredURL = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${apiKey}`
+const searchURL = `https://api.themoviedb.org/3/search/movie?&api_key=${apiKey}&query=`
 const image = 'https://image.tmdb.org/t/p/'
 
 //Things to do:
@@ -22,25 +21,43 @@ export class LandingPage extends Component {
 
         this.state = {
             movies: [],
-            page: 1
+            page: 1,
+            url: featuredURL
         }
     }
 
 
     async componentDidMount() {
         //Get featured movies and store it in state
-        const res = await axios.get(featured)
-        
+        const res = await axios.get(this.state.url)
+
         this.setState({ movies: res.data.results })
     }
 
-    //Load more featured movies by incrementing the state page value and passing it into TMDB api
-    loadMore = async() => {
-        const res = await axios.get(featured + '&page=' + (this.state.page + 1))
-        this.setState(prevState => ({
-            movies: prevState.movies.concat(res.data.results),
-            page: prevState.page + 1
-        }))
+    // Function for searching movies
+    handleSearch = e => {
+        const search = searchURL + e.target.value
+
+        const fetchSearch = async () => {
+            if(e.target.value === '' || /^[\s]+$/.test(e.target.value)) {
+                const pureResponse = await axios.get(featuredURL)
+                this.setState({ 
+                    movies: pureResponse.data.results,
+                    page: 1,
+                    url: featuredURL
+                })
+            } else {
+                const pureResponse = await axios.get(search)
+                this.setState({ 
+                    movies: pureResponse.data.results,
+                    page: 1,
+                    url: search
+                })
+            }
+        }
+
+        clearInterval(searchInterval)
+        const searchInterval = setTimeout(fetchSearch, 1000)
     }
 
     //Function for returning class name for a movies score to change it's colour depending on score
@@ -52,6 +69,15 @@ export class LandingPage extends Component {
         } else {
             return 'red'
         }
+    }
+
+    //Load more featured movies by incrementing the state page value and passing it into TMDB api
+    loadMore = async() => {
+        const res = await axios.get(this.state.url + '&page=' + (this.state.page + 1))
+        this.setState(prevState => ({
+            movies: prevState.movies.concat(res.data.results),
+            page: prevState.page + 1
+        }))
     }
 
     render() {
@@ -71,7 +97,13 @@ export class LandingPage extends Component {
 
                 {/* Search input for searching specific movies */}
                 <div className="landing-search">
-                    <input type="text" placeholder="Search for movies"/>
+                    <input 
+                        type="search"
+                        name="query"
+                        placeholder="Search for movies..."
+                        autoComplete="off"
+                        onChange={this.handleSearch}
+                    />
                 </div>
 
                 {/* Where we render the displayed movies on the landing page */}
