@@ -68,10 +68,23 @@
 
 .preview-rating {
     width: 40px;
-    background-color: lightgray;
+    background-color: gray;
     padding: 0.5rem;
     text-align: center;
     border-radius: 5px;
+    font-weight: bold;
+}
+
+.green {
+    color: rgb(40, 201, 40);
+}
+
+.orange {
+    color: #ffa500;
+}
+
+.red {
+    color: #f00;
 }
 
 .preview-overview {

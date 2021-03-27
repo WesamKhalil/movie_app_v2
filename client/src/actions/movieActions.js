@@ -49,7 +49,7 @@ export const deleteFavouriteMovie = movieId => async (dispatch, getState) => {
 
 //Configures our header with our token attached to it
 const tokenConfig = () => {
-    const token = localStorage.getItem('jwt')
+    const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt')
     return {
         headers: {
             "x-auth-token": token

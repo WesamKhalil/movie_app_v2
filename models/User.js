@@ -39,15 +39,15 @@ userSchema.pre('save', async function(next) {
 
 //Create a user verification function on the User model to use in the userApiController.
 userSchema.statics.verify = async function(email, password) {
-    const user = await this.findOne({ email }).select('first_name last_name password').lean()
-    const { first_name, last_name, _id } = user
+    const user = await this.findOne({ email }).select('first_name last_name password favourites').lean()
+    const { first_name, last_name, favourites, _id } = user
     
     if(!user) throw new Error("User doesn't exist.")
 
     const correctPassword = await bcrypt.compare(password, user.password)
     if(!correctPassword) throw new Error("Incorrect email or password.")
 
-    return { first_name, last_name, _id }
+    return { first_name, last_name, favourites, _id }
 }
 
 module.exports = mongoose.model('user', userSchema)

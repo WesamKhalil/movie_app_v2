@@ -44,6 +44,17 @@ export class LandingPage extends Component {
         }))
     }
 
+    //Function for returning class name for a movies score to change it's colour depending on score
+    scoreClass = score => {
+        if(score >= 8) {
+            return 'green'
+        } else if(score >= 6) {
+            return 'orange'
+        } else {
+            return 'red'
+        }
+    }
+
     render() {
 
         const bannerMovie = this.state.movies[0]
@@ -72,7 +83,7 @@ export class LandingPage extends Component {
                                 <img src={image + 'w300' + poster_path}/>
                                 <div className="preview-info">
                                     <h3>{title}</h3>
-                                    <div className="preview-rating">{vote_average}</div>
+                                    <div className={"preview-rating " + this.scoreClass(vote_average)}>{vote_average}</div>
                                 </div>
                                 <div className="preview-overview">
                                     <h2>Overview</h2>

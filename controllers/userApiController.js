@@ -13,7 +13,9 @@ const loginUser = async (req, res, next) => {
 
     try {
         let { first_name, last_name, favourites, _id } = await User.verify(email, password)
+        console.log(favourites)
         favourites = favourites || []
+        console.log(favourites)
 
         const token = await createToken(_id)
 

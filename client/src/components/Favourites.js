@@ -18,6 +18,7 @@ export class Favourites extends Component {
     render() {
 
     const favourites = this.props.movie.favourites
+    console.log(favourites)
 
         return (
             <div className="favourites-container">
