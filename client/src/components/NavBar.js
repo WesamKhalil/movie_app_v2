@@ -15,16 +15,16 @@ import './styles/NavBar.css'
 //The right side of the navbar that is rendered when user is logged in
 const MenuLoggedIn = (props) => (
     <React.Fragment>
-        <Link to="/favourites" className="menu-button">Favourites</Link>
-        <a onClick={props.logout()} className="menu-button">Logout</a>
+        <Link to="/favourites" className="menu-button navbar-favourites">Favourites</Link>
+        <a onClick={props.logout()} className="menu-button logout">Logout</a>
     </React.Fragment>
 )
 
 //The right side of the navbar that is rendered when user is logged out
 const MenuLoggedOut = () => (
     <React.Fragment>
-        <Link to="/login" className="menu-button">Login</Link>
-        <Link to="/register" className="menu-button">Register</Link>
+        <Link to="/login" className="menu-button login">Login</Link>
+        <Link to="/register" className="menu-button register">Register</Link>
     </React.Fragment>
 )
 

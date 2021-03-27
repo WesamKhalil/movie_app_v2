@@ -15,10 +15,17 @@ export class Favourites extends Component {
         }
     }
 
+    componentDidMount() {
+        if(!this.props.user.isLoggedIn) this.props.history.push('/')
+    }
+
+    componentDidUpdate(prevProps) {
+        if(!this.props.user.isLoggedIn) this.props.history.push('/')
+    }
+
     render() {
 
     const favourites = this.props.movie.favourites
-    console.log(favourites)
 
         return (
             <div className="favourites-container">
@@ -29,8 +36,8 @@ export class Favourites extends Component {
                             <th>Movie Name.</th>
                             <th>Runtime.</th>
                         </tr>
-                        { favourites.map(({ title, runtime, id })=> (
-                            <tr>
+                        { favourites.map(({ title, runtime, id }, ind)=> (
+                            <tr key={"favourite " + ind}>
                                 <td className="favourite-movie-title">{title}</td>
                                 <td className="favourite-movie-runtime">{runtime} Minutes</td>
                                 <button className="favourite-movie-delete" onClick={() => this.props.deleteFavouriteMovie(id)}>Delete</button>
@@ -49,7 +56,8 @@ export class Favourites extends Component {
 }
 
 const mapStateToProps = state => ({
-    movie: state.movie
+    movie: state.movie,
+    user: state.auth
 })
 
 export default connect(mapStateToProps, { deleteFavouriteMovie })(Favourites)

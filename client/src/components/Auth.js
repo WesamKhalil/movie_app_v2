@@ -37,7 +37,6 @@ export class Auth extends Component {
         const email = e.target.email.value
         const password = e.target.password.value
         const remember = e.target.remember.checked
-        console.log(e.target.remember.checked)
 
         try {
             if(this.props.location.pathname === '/register') {

@@ -11,10 +11,9 @@ const image = 'https://image.tmdb.org/t/p/'
 
 //Things to do:
 //Add colours
-//Add colours to ratings depending on score
 //Figure out how to decrease banner image size for faster loading
 //Add word wrap and text overflow to title
-//Add serch functionality
+//Add search functionality
 //Provide option to see newest movies
 
 export class LandingPage extends Component {
@@ -31,7 +30,7 @@ export class LandingPage extends Component {
     async componentDidMount() {
         //Get featured movies and store it in state
         const res = await axios.get(featured)
-        console.log(res.data)
+        
         this.setState({ movies: res.data.results })
     }
 

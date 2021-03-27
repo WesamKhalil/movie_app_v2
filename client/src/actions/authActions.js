@@ -12,9 +12,11 @@ export const login = (email, password, remember) => async (dispatch) => {
             type: LOGIN_SUCCESS,
             payload: { username: first_name + ' ' + last_name }
         })
+
+        const updatedFavourites = await fetchFavourites(favourites)
         dispatch({
             type: LOAD_FAVOURITES_SUCCESS,
-            payload: favourites
+            payload: updatedFavourites
         })
     } catch(error) {
         dispatch({

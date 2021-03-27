@@ -25,7 +25,7 @@ export class ViewMovie extends Component {
         const movieId = this.props.match.params.id
         const movieUrl = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`
         const res = await axios.get(movieUrl)
-        console.log(res)
+        
         this.setState({ movie: res.data })
     }
 
@@ -33,7 +33,7 @@ export class ViewMovie extends Component {
     loadActors = async () => {
         const movieId = this.props.match.params.id
         const res = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`)
-        console.log(res.data.cast)
+
         this.setState({ actors: res.data.cast })
     }
 
@@ -44,10 +44,10 @@ export class ViewMovie extends Component {
         const existsInFavourites = this.props.movie.favourites.some(movie => movie.id === movieId)
 
         if(existsInFavourites) return (
-            <button onClick={() => this.props.deleteFavouriteMovie(movieId)}>Delete from Favourites</button>
+            <button className ="view-delete" onClick={() => this.props.deleteFavouriteMovie(movieId)}>Delete from Favourites</button>
         )
 
-        return ( <button onClick={() => this.props.addFavouriteMovie(movieId)} >Add to Favourites</button> )
+        return ( <button className ="view-add" onClick={() => this.props.addFavouriteMovie(movieId)} >Add to Favourites</button> )
     }
 
     render() {

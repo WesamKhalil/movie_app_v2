@@ -26,8 +26,9 @@ To run the production build type in the terminal "npm run start" and navigate to
 To run this application for development type in your terminal "npm run dev" to run the back end and client server simultaneously, a window/tab should open up automatically in your browser to show you the app.  
 
 Todo list:  
-Add colours and animations.  
+Add animations.  
 Add movie search functionality.  
 Change scroll view to the top of the page when changing pages.  
 Add like button functionality.  
 Add comment functionality.  
+Add error messages on login/register form.  
