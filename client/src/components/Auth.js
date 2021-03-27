@@ -11,6 +11,10 @@ const NameInput = () => (
     </React.Fragment>
 )
 
+// Todo:
+// Add error messages
+
+
 //Component for both logging in and registering
 export class Auth extends Component {
     constructor(props) {

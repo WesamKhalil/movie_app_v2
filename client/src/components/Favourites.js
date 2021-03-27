@@ -4,8 +4,6 @@ import axios from 'axios'
 import { deleteFavouriteMovie } from '../actions/movieActions'
 import './styles/Favourites.css'
 
-const apiKey = '4769fe382f408f9f9d8c072498e10703'
-
 export class Favourites extends Component {
     constructor(props) {
         super(props)

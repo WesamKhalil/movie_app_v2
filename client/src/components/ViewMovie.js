@@ -6,8 +6,8 @@ import './styles/ViewMovie.css'
 
 const apiKey = '4769fe382f408f9f9d8c072498e10703'
 const image = 'https://image.tmdb.org/t/p/'
-// const specificMovie = `https://api.themoviedb.org/3/${movieid}?api_key=${apiKey}`
-// const actors = `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`
+const returnMovieUrl = (movieId) => `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`
+const returnActorsUrl = (movieId) => `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`
 
 
 export class ViewMovie extends Component {
@@ -23,16 +23,15 @@ export class ViewMovie extends Component {
     // Get the information on the specific movie being viewed and putting info in state
     async componentDidMount() {
         const movieId = this.props.match.params.id
-        const movieUrl = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`
-        const res = await axios.get(movieUrl)
-        
+        const res = await axios.get(returnMovieUrl(movieId))
+
         this.setState({ movie: res.data })
     }
 
     // Function for loading actors information into state
     loadActors = async () => {
         const movieId = this.props.match.params.id
-        const res = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`)
+        const res = await axios.get(returnActorsUrl(movieId))
 
         this.setState({ actors: res.data.cast })
     }

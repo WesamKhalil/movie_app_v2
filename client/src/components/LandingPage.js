@@ -12,7 +12,6 @@ const image = 'https://image.tmdb.org/t/p/'
 //Add colours
 //Figure out how to decrease banner image size for faster loading
 //Add word wrap and text overflow to title
-//Add search functionality
 //Provide option to see newest movies
 
 export class LandingPage extends Component {

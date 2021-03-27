@@ -5,12 +5,11 @@ import { logout } from '../actions/authActions'
 import './styles/NavBar.css'
 
 //Things to do
-//Add colours
 //Potentially make navbar background colour transparent
 //Change responsve sizes
+//Remove flex from right menu buttons
 //Add shadows
 //Add animations
-//Remove flex from right menu buttons
 
 //The right side of the navbar that is rendered when user is logged in
 const MenuLoggedIn = (props) => (
