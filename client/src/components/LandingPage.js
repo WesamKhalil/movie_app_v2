@@ -10,9 +10,14 @@ const image = 'https://image.tmdb.org/t/p/'
 
 //Things to do:
 //Add colours
-//Figure out how to decrease banner image size for faster loading
 //Add word wrap and text overflow to title
 //Provide option to see newest movies
+// Make it more obvious that the movies are links
+
+// Notes
+// TMDB only suports backdrop images in 1280x720 or original which tends to be 3840x2160.
+// The first one is fast to load but is too low quality, the second one is higher quality but is slow to load, I decided to stick with the original size.
+// They should have had a w1080 option.
 
 export class LandingPage extends Component {
     constructor(props) {
@@ -27,6 +32,9 @@ export class LandingPage extends Component {
 
 
     async componentDidMount() {
+        // Scroll to top of the page on page load
+        window.scrollTo(0, 0)
+
         //Get featured movies and store it in state
         const res = await axios.get(this.state.url)
 

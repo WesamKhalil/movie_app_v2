@@ -22,7 +22,7 @@ export const login = (email, password, remember) => async (dispatch) => {
         dispatch({
             type: LOGIN_FAILED
         })
-        throw error
+        throw error.response.data
     }
 }
 
@@ -84,7 +84,6 @@ export const loadUser = () => async (dispatch) => {
 //Configures our header with our token attached to it
 const tokenConfig = () => {
     const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt')
-    console.log('token config ', token)
     return {
         headers: {
             "x-auth-token": token

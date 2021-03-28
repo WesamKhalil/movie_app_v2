@@ -21,7 +21,14 @@ export class Auth extends Component {
         super(props)
 
         this.state = {
-            action: null
+            action: null,
+            error_message: {
+                first_name: null,
+                last_name: null,
+                email: null,
+                password: null,
+                general: null
+            }
         }
     }
 
@@ -53,13 +60,15 @@ export class Auth extends Component {
 
             this.props.history.push('/')
         } catch(error) {
-            return console.log(error)
+            console.log(error)
+            this.setState({ error_message: error.error })
         }
     }
 
     render() {
 
-        const action = this.state.action
+        const { action, error_message } = this.state
+        const { first_name, last_name, email, password, general } = error_message
 
         return (
             <div className="auth-container">
@@ -74,6 +83,11 @@ export class Auth extends Component {
                             <label id="remember" >remember me.</label>
                         </div>
                         <button className="auth-btn">{action}</button>
+                        { first_name ? <p>{first_name}</p> : null }
+                        { last_name ? <p>{last_name}</p> : null }
+                        { email ? <p>{email}</p> : null }
+                        { password ? <p>{password}</p> : null }
+                        { general ? <p>{general}</p> : null }
                     </form>
                 </div>
             </div>

@@ -5,9 +5,6 @@ import { logout } from '../actions/authActions'
 import './styles/NavBar.css'
 
 //Things to do
-//Potentially make navbar background colour transparent
-//Change responsve sizes
-//Remove flex from right menu buttons
 //Add shadows
 //Add animations
 

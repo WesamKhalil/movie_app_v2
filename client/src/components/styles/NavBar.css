@@ -10,7 +10,7 @@ nav {
     left: 0;
     z-index: 3;
     box-shadow: 0px 0px 5px #000;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 1);
 }
 
 .nav-left-side {
@@ -139,7 +139,7 @@ nav {
 
 @media (min-width: 800px) {
     nav {
-        padding: 0 5rem;
+        padding: 0 3.5rem;
     }
 
     .burger, .toggler {
@@ -148,14 +148,14 @@ nav {
 
     .nav-right-side {
         height: 64px;
+        min-width: 300px;
         width: 30vw;
     }
 
     .menu {
         height: 100%;
         width: 100%;
-        position: relative;
-        right: 0;
+        position: static;
         flex-direction: row;
         justify-content: space-between;
         padding: 0;
@@ -169,6 +169,7 @@ nav {
     }
 
     .nav-right-side {
+        min-width: 320px;
         width: 20vw;
     }
 }

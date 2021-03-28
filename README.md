@@ -27,7 +27,6 @@ To run this application for development type in your terminal "npm run dev" to r
 
 Todo list:  
 Add animations.  
-Change scroll view to the top of the page when changing pages.  
 Add like button functionality.  
 Add comment functionality.  
 Add error messages on login/register form.  

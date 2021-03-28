@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { deleteFavouriteMovie } from '../actions/movieActions'
 import './styles/Favourites.css'
+
+// Todo:
+// Display movies image when you hover over it.
 
 export class Favourites extends Component {
     constructor(props) {
@@ -16,6 +20,10 @@ export class Favourites extends Component {
     //Redirect to landing page if user is logged out
     componentDidMount() {
         if(!this.props.user.isLoggedIn) this.props.history.push('/')
+
+        // Scroll to top of the page on page load
+        window.scrollTo(0, 0)
+
     }
 
     //Redirect to landing page if user is logged out
@@ -38,7 +46,7 @@ export class Favourites extends Component {
                         </tr>
                         { favourites.map(({ title, runtime, id }, ind)=> (
                             <tr key={"favourite " + ind}>
-                                <td className="favourite-movie-title">{title}</td>
+                                <td className="favourite-movie-title"><Link to={'/movie/' + id}>{title}</Link></td>
                                 <td className="favourite-movie-runtime">{runtime} Minutes</td>
                                 <button className="favourite-movie-delete" onClick={() => this.props.deleteFavouriteMovie(id)}>Delete</button>
                             </tr>

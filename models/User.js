@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
+const ErrorResponse = require('../utils/errorResponse')
 
 const userSchema = new mongoose.Schema({
     first_name: {
@@ -39,14 +40,26 @@ userSchema.pre('save', async function(next) {
 
 //Create a user verification function on the User model to use in the userApiController.
 userSchema.statics.verify = async function(email, password) {
-    const user = await this.findOne({ email }).select('first_name last_name password favourites').lean()
-    const { first_name, last_name, favourites, _id } = user
+    let errorList = []
+    if(!email) errorList.push({ type: "email", message: "Please provide an email." })
+    if(!password) errorList.push({ type: "password", message: "Please provide a password." })
+    if(errorList.length > 0) throw new ErrorResponse("Verification of email and password failed.", "verify", errorList)
+
+    const user = await this.findOne({ email }).select('first_name last_name password favourites')
     
-    if(!user) throw new Error("User doesn't exist.")
+    if(!user) {
+        errorList.push({ type: "email", message: "This email isn't registered." })
+        throw new ErrorResponse("User doesn't exist.", "verify", errorList)
+    }
+
+    const { first_name, last_name, favourites, _id } = user
 
     const correctPassword = await bcrypt.compare(password, user.password)
 
-    if(!correctPassword) throw new Error("Incorrect email or password.")
+    if(!correctPassword) {
+        errorList.push({ type: "password", message: "Incorrect password." })
+        throw new ErrorResponse("Incorrect password.", "verify", errorList)
+    }
 
     return { first_name, last_name, favourites, _id }
 }

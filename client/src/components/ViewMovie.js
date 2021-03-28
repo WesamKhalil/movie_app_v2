@@ -9,6 +9,8 @@ const image = 'https://image.tmdb.org/t/p/'
 const returnMovieUrl = (movieId) => `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`
 const returnActorsUrl = (movieId) => `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`
 
+// Todo:
+// Animate buttons.
 
 export class ViewMovie extends Component {
     constructor(props) {
@@ -22,6 +24,9 @@ export class ViewMovie extends Component {
 
     // Get the information on the specific movie being viewed and putting info in state
     async componentDidMount() {
+        // Scroll to top of the page on page load
+        window.scrollTo(0, 0)
+
         const movieId = this.props.match.params.id
         const res = await axios.get(returnMovieUrl(movieId))
 
