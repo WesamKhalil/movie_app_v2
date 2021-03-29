@@ -8,7 +8,7 @@ const addFavourite = async (req, res, next) => {
     const newFavourite = req.params.id
 
     try {
-        await req.user.save({ $addToSet: { favourites: newFavourite } })
+        await req.user.updateOne({ $addToSet: { favourites: newFavourite } })
 
         res.sendStatus(200)
     } catch(error) {

@@ -43,6 +43,7 @@ export class Favourites extends Component {
                         <tr className="favourite-list-header">
                             <th>Movie Name.</th>
                             <th>Runtime.</th>
+                            <th></th>
                         </tr>
                         { favourites.map(({ title, runtime, id }, ind)=> (
                             <tr key={"favourite " + ind}>

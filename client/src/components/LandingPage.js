@@ -11,7 +11,6 @@ const image = 'https://image.tmdb.org/t/p/'
 //Things to do:
 //Add colours
 //Add word wrap and text overflow to title
-//Provide option to see newest movies
 // Make it more obvious that the movies are links
 
 // Notes

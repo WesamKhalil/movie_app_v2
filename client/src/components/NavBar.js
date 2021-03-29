@@ -4,10 +4,6 @@ import { connect } from 'react-redux'
 import { logout } from '../actions/authActions'
 import './styles/NavBar.css'
 
-//Things to do
-//Add shadows
-//Add animations
-
 //The right side of the navbar that is rendered when user is logged in
 const MenuLoggedIn = (props) => (
     <React.Fragment>
