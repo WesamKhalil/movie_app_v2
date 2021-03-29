@@ -60,34 +60,54 @@ export class Auth extends Component {
 
             this.props.history.push('/')
         } catch(error) {
-            console.log(error)
+            console.log(error.error)
             this.setState({ error_message: error.error })
         }
     }
 
+    //Component for rendering a first and last name input for registering
+    renderNameInputs = () => {
+        
+        const { first_name, last_name } = this.state.error_message
+
+        return (
+        <React.Fragment>
+            <div className="input-container">
+                <input type="text" name="first_name" className="auth-input" placeholder="First Name" autoComplete="off" />
+                { first_name ? <p className="error_message">{first_name}</p> : null }
+            </div>
+            <div className="input-container">
+                <input type="text" name="last_name" className="auth-input" placeholder="Second Name" autoComplete="off" />
+                { last_name ? <p className="error_message">{last_name}</p> : null }
+            </div>
+        </React.Fragment>
+    )}
+
     render() {
 
         const { action, error_message } = this.state
-        const { first_name, last_name, email, password, general } = error_message
+        const { email, password, general } = error_message
 
         return (
             <div className="auth-container">
                 <h1 className="auth-title">{action}</h1>
                 <div className="auth-form">
                     <form onSubmit={this.handleSubmit}>
-                        { action === 'Register' ? <NameInput /> : null }
-                        <input type="email" name="email" className="auth-input" placeholder="Email" />
-                        <input type="password" name="password" placeholder="Password" className="auth-input" />
+                        { action === 'Register' ? this.renderNameInputs() : null }
+                        <div className="input-container">
+                            <input type="email" name="email" className="auth-input" placeholder="Email" />
+                            { email ? <p className="error_message">{email}</p> : null }
+                        </div>
+                        <div className="input-container">
+                            <input type="password" name="password" placeholder="Password" className="auth-input" />
+                            { password ? <p className="error_message">{password}</p> : null }
+                        </div>
                         <div className="checkbox-container">
                             <input type="checkbox" name="remember" id="remember" className="remember-me"/>
                             <label id="remember" >remember me.</label>
                         </div>
                         <button className="auth-btn">{action}</button>
-                        { first_name ? <p>{first_name}</p> : null }
-                        { last_name ? <p>{last_name}</p> : null }
-                        { email ? <p>{email}</p> : null }
-                        { password ? <p>{password}</p> : null }
-                        { general ? <p>{general}</p> : null }
+                        { general ? <p className="error_message">{general}</p> : null }
                     </form>
                 </div>
             </div>

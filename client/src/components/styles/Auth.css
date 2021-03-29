@@ -18,14 +18,21 @@
     box-shadow: 0 0 8px #000;
 }
 
+.input-container {
+    height: 4.7rem;
+}
+
 .auth-input {
     width: 100%;
-    margin-bottom: 2.5rem;
     padding: 0.5rem 1rem;
     font-size: 1.2rem;
     outline: none;
     border: 1px solid rgba(0, 0, 0, 0.35);
     transition: 0.3s;
+}
+
+.error_message {
+    color: #f00;
 }
 
 .checkbox-container {

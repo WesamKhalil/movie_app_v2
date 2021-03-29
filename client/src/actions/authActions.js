@@ -41,7 +41,7 @@ export const register = (first_name, last_name, email, password, remember) => as
         dispatch({
             type: REGISTER_FAILED
         })
-        throw error
+        throw error.response.data
     }
 }
 
