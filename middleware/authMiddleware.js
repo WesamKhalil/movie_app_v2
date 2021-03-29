@@ -10,13 +10,14 @@ const authUser = async (req, res, next) => {
     try {
         const decodedToken = jwt.verify(token, process.env.JWT_KEY)
 
-        const user = await User.count({ _id: decodedToken.id })
-        if(user === 0) throw new Error("User doesn't exist.")
+        const user = await User.findById({ _id: decodedToken.id })
+        if(!user) throw new Error("User doesn't exist.")
 
+        req.user = user
         next()
     } catch(error) {
         res.sendStatus(401)
     }
 }
 
-module.exports = authUser
+module.exports = { authUser }

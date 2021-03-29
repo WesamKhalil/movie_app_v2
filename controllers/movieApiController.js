@@ -3,14 +3,12 @@ const jwt = require('jsonwebtoken')
 require("dotenv").config()
 
 //Controller for adding a new favourite movie to a user document
+// req.user is created in the authUser middleware in the authMiddleware file
 const addFavourite = async (req, res, next) => {
-    const token = req.header('x-auth-token')
     const newFavourite = req.params.id
 
     try {
-        const { id } = await jwt.verify(token, process.env.JWT_KEY)
-
-        await User.findByIdAndUpdate(id, { $addToSet: { favourites: newFavourite } })
+        await req.user.save({ $addToSet: { favourites: newFavourite } })
 
         res.sendStatus(200)
     } catch(error) {
@@ -19,18 +17,14 @@ const addFavourite = async (req, res, next) => {
 }
 
 //Controller for deleting a specified movie from a users document
+// req.user is created in the authUser middleware in the authMiddleware file
 const deleteFavourite = async (req, res, next) => {
-    const token = req.header('x-auth-token')
     const oldFavourite = req.params.id
 
     try {
-        const { id } = await jwt.verify(token, process.env.JWT_KEY)
+        req.user.favourites = req.user.favourites.filter(movie => movie != oldFavourite)
 
-        let user = await User.findById(id)
-
-        user.favourites = user.favourites.filter(movie => movie != oldFavourite)
-
-        await user.save()
+        await req.user.save()
 
         res.sendStatus(200)
     } catch(error) {
