@@ -4,13 +4,13 @@ import axios from 'axios'
 //Action for logging in user and getting token from the api
 export const login = (email, password, remember) => async (dispatch) => {
     try {
-        const { first_name, last_name, favourites, token } = (await axios.post('/api/user/login', { email, password })).data
+        const { first_name, last_name, UCId, favourites, token } = (await axios.post('/api/user/login', { email, password })).data
 
         remember ? localStorage.setItem('jwt', token) : sessionStorage.setItem('jwt', token)
 
         dispatch({
             type: LOGIN_SUCCESS,
-            payload: { username: first_name + ' ' + last_name }
+            payload: { username: first_name + ' ' + last_name, UCId }
         })
 
         const updatedFavourites = await fetchFavourites(favourites)
@@ -29,13 +29,13 @@ export const login = (email, password, remember) => async (dispatch) => {
 //Action for registering a user on the database and getting a token
 export const register = (first_name, last_name, email, password, remember) => async (dispatch) => {
     try {
-        const { token } = (await axios.post('/api/user/register', { first_name, last_name, email, password })).data
+        const { UCId, token } = (await axios.post('/api/user/register', { first_name, last_name, email, password })).data
 
         remember ? localStorage.setItem('jwt', token) : sessionStorage.setItem('jwt', token)
 
         dispatch({
             type: REGISTER_SUCCESS,
-            payload: { username: first_name + ' ' + last_name }
+            payload: { username: first_name + ' ' + last_name, UCId }
         })
     } catch(error) {
         dispatch({
@@ -60,11 +60,11 @@ export const logout = () => async (dispatch) => {
 //Action for loading user details if token already exists in localStorage
 export const loadUser = () => async (dispatch) => {
     try {
-        const { first_name, last_name, favourites } = (await axios.post('/api/user/load_user', {}, tokenConfig())).data
+        const { first_name, last_name, UCId, favourites } = (await axios.post('/api/user/load_user', {}, tokenConfig())).data
 
         dispatch({
             type: LOAD_USER_SUCCESS,
-            payload: { username: first_name + ' ' + last_name }
+            payload: { username: first_name + ' ' + last_name, UCId }
         })
 
         const favouritesData = await fetchFavourites(favourites)

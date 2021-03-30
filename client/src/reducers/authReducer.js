@@ -3,7 +3,8 @@ import { LOGIN_SUCCESS, LOGIN_FAILED, REGISTER_SUCCESS, REGISTER_FAILED, LOAD_US
 //State we use to decide whether to render user elements and what values we want to show and use
 const initialState = {
     isLoggedIn: null,
-    username: null
+    username: null,
+    UCId: null
 }
 
 
@@ -27,7 +28,7 @@ export default (state = initialState, action) => {
                 ...state,
                 isLoggedIn: false,
                 username: null,
-                favourites: []
+                UCId: null
             }
         default:
             return {

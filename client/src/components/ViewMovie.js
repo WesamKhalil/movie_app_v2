@@ -18,7 +18,9 @@ export class ViewMovie extends Component {
 
         this.state = {
             movie: {},
-            actors: []
+            actors: [],
+            favourited: null,
+            comments: []
         }
     }
 
@@ -30,7 +32,10 @@ export class ViewMovie extends Component {
         const movieId = this.props.match.params.id
         const res = await axios.get(returnMovieUrl(movieId))
 
-        this.setState({ movie: res.data })
+        const apiRes = await axios.get('/api/movie/info/' + movieId)
+        const { favourited, comments } = apiRes.data
+
+        this.setState({ movie: res.data, favourited, comments })
     }
 
     // Function for loading actors information into state
@@ -41,6 +46,7 @@ export class ViewMovie extends Component {
         this.setState({ actors: res.data.cast })
     }
 
+    // Function for rendering an add to favourites button, delete button or no button is user is not signed in
     renderFavouriteButton = () => {
         if(!this.props.user.isLoggedIn) return null
 
@@ -48,16 +54,52 @@ export class ViewMovie extends Component {
         const existsInFavourites = this.props.movie.favourites.some(movie => movie.id === movieId)
 
         if(existsInFavourites) return (
-            <button className ="view-delete" onClick={() => this.props.deleteFavouriteMovie(movieId)}>Delete from Favourites</button>
+            <button className ="view-delete" onClick={() => this.favouritesFunction(movieId, 'delete')}>Delete from Favourites</button>
         )
 
-        return ( <button className ="view-add" onClick={() => this.props.addFavouriteMovie(movieId)} >Add to Favourites</button> )
+        return ( <button className ="view-add" onClick={() => this.favouritesFunction(movieId, 'add')} >Add to Favourites</button> )
+    }
+
+    // Function for handling add and delete onlcik event to update the stores and local states values
+    favouritesFunction = async (movieId, action) => {
+        if(action === 'add') {
+            await this.props.addFavouriteMovie(movieId)
+            this.setState({ favourited: this.state.favourited + 1 })
+        } else {
+            await this.props.deleteFavouriteMovie(movieId)
+            this.setState({ favourited: this.state.favourited - 1 })
+        }
+    }
+
+    addComment = async (e) => {
+        e.preventDefault()
+
+        const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt')
+        const header = { headers: { "x-auth-token": token } }
+
+        const movieId = this.props.match.params.id
+        const comment = e.target.comment.value
+        let _id
+
+        try {
+        _id = (await axios.post('/api/movie/comments/' + movieId, { comment }, header)).data._id
+        } catch(error) {
+            console.log(error)
+        }
+
+        const { username, UCId } = this.props.user
+
+        const replyTo = null
+
+        const newComment = { _id, username, comment, UCId, replyTo }
+
+        this.setState(prevState => ({ comments: prevState.comments.concat(newComment) }))
     }
 
     render() {
 
-        const movie = this.state.movie
-        const movieId = this.props.match.params.id
+        const { movie, favourited, comments } = this.state
+        const { isLoggedIn } = this.props.user
 
         return (
             <div>
@@ -72,6 +114,7 @@ export class ViewMovie extends Component {
                 {/* Add or delete to favourites button */}
                 <div className="favourites-button-container">
                     { this.renderFavouriteButton() }
+                    <p>Favourited: {favourited}</p>
                 </div>
 
                 <h2 className="view-info-title">Movie Info</h2>
@@ -119,6 +162,26 @@ export class ViewMovie extends Component {
                             <div className="info-key">Budget:</div>
                             <div className="info-value">${movie.budget}</div>
                         </div>
+                    </div>
+                </div>
+
+                {/* Where we display comments */}
+                <div className="comments-section">
+                    { 
+                        isLoggedIn ?  
+                        <form onSubmit={this.addComment} className="comment-form">
+                            <textarea name="comment" placeholder="Add Comment" className="comment-input" />
+                            <button className="comment-button">Comment</button>
+                        </form>
+                        : null
+                    }
+                    <div className="comments-container">
+                        { comments.map(({ comment, UCId, _id, username }) => (
+                            <div className="comments">
+                                <h4>{username} #{UCId}</h4>
+                                <p ucid={UCId} key={_id} className="comments">{comment}</p>
+                            </div>
+                        )) }
                     </div>
                 </div>
 

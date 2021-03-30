@@ -3,14 +3,6 @@ import { connect } from 'react-redux'
 import { login, register } from '../actions/authActions'
 import './styles/Auth.css'
 
-//Component for rendering a first and last name input for registering
-const NameInput = () => (
-    <React.Fragment>
-        <input type="text" name="first_name" className="auth-input" placeholder="First Name" autoComplete="off" />
-        <input type="text" name="last_name" className="auth-input" placeholder="Second Name" autoComplete="off" />
-    </React.Fragment>
-)
-
 //Component for both logging in and registering
 export class Auth extends Component {
     constructor(props) {
@@ -77,7 +69,8 @@ export class Auth extends Component {
                 { last_name ? <p className="error_message">{last_name}</p> : null }
             </div>
         </React.Fragment>
-    )}
+        )
+    }
 
     render() {
 

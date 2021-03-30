@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
+const { v4: uuidv4 }  = require('uuid')
 const ErrorResponse = require('../utils/errorResponse')
 
 const userSchema = new mongoose.Schema({
@@ -29,12 +30,17 @@ const userSchema = new mongoose.Schema({
     favourites: {
         type: Array,
         default: []
+    },
+    UCId: {
+        type: String
     }
 })
 
 //Before your created password is saved on the database it is encrypted using bcrypt.
+// We create an id for the client to identify their users comments
 userSchema.pre('save', async function(next) {
     this.password = await bcrypt.hash(this.password, 10)
+    this.UCId = await uuidv4()
     next()
 })
 
