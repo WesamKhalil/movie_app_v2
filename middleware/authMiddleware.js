@@ -5,9 +5,10 @@ require("dotenv").config()
 //middleware for verifying a user with the token they send to the api
 const authUser = async (req, res, next) => {
     const token = req.header('x-auth-token')
-    if(!token) throw new Error('No token provided.')
 
     try {
+        if(!token) throw new Error('No token provided.')
+
         const decodedToken = jwt.verify(token, process.env.JWT_KEY)
 
         const user = await User.findById({ _id: decodedToken.id })

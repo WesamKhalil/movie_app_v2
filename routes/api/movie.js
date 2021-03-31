@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { addFavourite, deleteFavourite, fetchMovieInfo, addComment, deleteComment } = require('../../controllers/movieApiController')
+const { addFavourite, deleteFavourite, fetchMovieInfo, addComment, deleteComment, editComment } = require('../../controllers/movieApiController')
 const { authUser } = require('../../middleware/authMiddleware')
 
 //API route for adding a favourite movie to user document
@@ -17,5 +17,8 @@ router.post('/comments/:id', authUser, addComment)
 
 // API route for deleting a comment under a movie
 router.delete('/comments/:id', authUser, deleteComment)
+
+// API route for editing a comment under a movie document
+router.patch('/comments/:id', authUser, editComment)
 
 module.exports = router

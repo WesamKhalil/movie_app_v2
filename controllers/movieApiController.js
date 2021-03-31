@@ -72,7 +72,7 @@ const addComment = async(req, res) => {
 }
 
 // Controller for deleting a comment from a document in the Movies collection
-const deleteComment = async(req, res) => {
+const deleteComment = async (req, res) => {
     const { _id } = req.body
     const UCId = req.user.UCId
     const movieId = req.params.id
@@ -86,4 +86,19 @@ const deleteComment = async(req, res) => {
     }
 }
 
-module.exports = { addFavourite, deleteFavourite, fetchMovieInfo, addComment, deleteComment }
+const editComment = async (req, res) => {
+    const { comment, _id } = req.body
+    const UCId = req.user.UCId
+    const movieId = req.params.id
+
+    try {
+        const movie = await Movie.findOneAndUpdate({ movieId, "comments._id": _id }, { "$set": { "comments.$.comment": comment } })
+
+        res.sendStatus(200)
+    } catch(error) {
+        console.log(error)
+        res.sendStatus(400)
+    }
+}
+
+module.exports = { addFavourite, deleteFavourite, fetchMovieInfo, addComment, deleteComment, editComment }

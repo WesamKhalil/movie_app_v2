@@ -26,7 +26,7 @@ To run the production build type in the terminal "npm run start" and navigate to
 To run this application for development type in your terminal "npm run dev" to run the back end and client server simultaneously, a window/tab should open up automatically in your browser to show you the app.  
 
 Todo list:  
-Add comment functionality.  
 
 Notes:  
 If you add a none existent movie to favourites then when you log in the app will crash.  
+Information is fetched synchronously so if fetching data for the movie takes too long then the comments and favourite counter won't load  

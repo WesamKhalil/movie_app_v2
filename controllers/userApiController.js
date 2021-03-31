@@ -25,11 +25,11 @@ const loginUser = async (req, res, next) => {
 //Controller for registering a new user to the database and return a token
 const registerUser = async (req, res, next) => {
     try {
-        const { _id } = await User.create(req.body)
+        const { _id, UCId } = await User.create(req.body)
 
         const token = await createToken(_id)
 
-        res.json({ token })
+        res.json({ token, UCId })
     } catch(error) {
         next(error)
     }

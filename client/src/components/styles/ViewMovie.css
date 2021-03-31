@@ -95,9 +95,11 @@
 
 /* Styling for button to add a movie to your favourites */
 .favourites-button-container {
-    width: 100%;
+    width: 500px;
+    margin: auto;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+    align-items: center;
     margin-bottom: 3rem;
 }
 
@@ -107,16 +109,26 @@
     text-align: center;
 }
 
+.favourited {
+    background-color: lightgray;
+    border: 1px solid #000;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+}
+
 /* comment section for comment form and displayed comments */
 .comments-section {
     width: 450px;
     margin: auto;
-    margin-top: 3rem;
+    margin-top: 4rem;
 }
 
 /* comment form */
 .comment-form {
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
 .comment-input {
@@ -128,10 +140,8 @@
 }
 
 .comment-button {
-    font-size: 1.5rem;
+    font-size: 1rem;
     padding: 0.5rem 1rem;
-    display: block;
-    margin: auto;
     margin-top: 1rem;
 }
 
@@ -139,8 +149,98 @@
 .comments-container {
 }
 
+.comments-container hr{
+    margin-bottom: 20px;
+}
+
+.comments-header {
+    margin-top: 30px;
+    margin-bottom: 5px;
+}
+
+.UCId {
+    font-size: 0.75rem;
+    color: darkgray;
+    font-weight: normal;
+}
+
 .comments {
-    margin-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+.comment {
+    white-space: pre-line;
+}
+
+.comment-functions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.comment-delete {
+    background-color: #f00;
+    margin-right: 15px;
+    width: 50px;
+}
+
+.comment-edit {
+    background-color: #0f0;
+    width: 50px;
+}
+
+.comment-reply {
+    width: 50px;
+}
+
+/* Styling for the reply form */
+.reply-form {
+    width: 100%;
+}
+
+.reply-input {
+    width: 100%;
+    font-size: 1.15rem;
+    min-height: 4rem;
+    resize: vertical;
+    padding: 7px;
+}
+
+.reply-buttons {
+    margin-top: 10px;
+}
+
+.reply-cancel {
+    margin-right: 15px;
+    width: 85px;
+}
+
+.reply-button {
+    width: 85px;
+}
+
+/* Styling for the edit form */
+.edit-form {
+    margin-bottom: 2rem;
+}
+
+.edit-input {
+    width: 100%;
+    min-height: 4rem;
+    resize: vertical;
+    padding: 7px;
+}
+
+.edit-buttons {
+    margin-top: 10px;
+}
+
+.edit-cancel {
+    width: 75px;
+    margin-right: 15px;
+}
+
+.edit-submit {
+    width: 75px;
 }
 
 .load-actors {

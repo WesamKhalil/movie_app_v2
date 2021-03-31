@@ -8,6 +8,7 @@ const apiKey = '4769fe382f408f9f9d8c072498e10703'
 const image = 'https://image.tmdb.org/t/p/'
 const returnMovieUrl = (movieId) => `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`
 const returnActorsUrl = (movieId) => `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`
+const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt')
 
 // Todo:
 // Animate buttons.
@@ -71,10 +72,10 @@ export class ViewMovie extends Component {
         }
     }
 
+    // Function for added comment to the database with an api call then add that comment in memory
     addComment = async (e) => {
         e.preventDefault()
 
-        const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt')
         const header = { headers: { "x-auth-token": token } }
 
         const movieId = this.props.match.params.id
@@ -84,8 +85,10 @@ export class ViewMovie extends Component {
         try {
         _id = (await axios.post('/api/movie/comments/' + movieId, { comment }, header)).data._id
         } catch(error) {
-            console.log(error)
+            return console.log(error)
         }
+
+        e.target.comment.value = ""
 
         const { username, UCId } = this.props.user
 
@@ -93,7 +96,107 @@ export class ViewMovie extends Component {
 
         const newComment = { _id, username, comment, UCId, replyTo }
 
-        this.setState(prevState => ({ comments: prevState.comments.concat(newComment) }))
+        const updatedComment = this.state.comments
+            .map(commentObj => {
+                commentObj.focus = null
+                return commentObj
+            })
+            .concat(newComment)
+
+        this.setState({ comments: updatedComment })
+    }
+
+    editComment = _id => async (e) => {
+        e.preventDefault()
+
+        const header = { headers: { "x-auth-token": token } }
+
+        const movieId = this.props.match.params.id
+        const comment = e.target.comment.value
+
+        try {
+            await axios.patch('/api/movie/comments/' + movieId, { comment, _id }, header)
+        } catch(error) {
+            return console.log(error)
+        }
+
+        const updatedComments = this.state.comments.map(commentObj => {
+            if(commentObj._id === _id) commentObj.comment = comment
+            commentObj.focus = null
+
+            return commentObj
+        })
+
+        this.setState({ comments: updatedComments })
+    }
+
+    // Function that makes an api call to delete a comment then deletes it in memory
+    deleteComment = async (id) => {
+        const header = { data: { _id: id }, headers: { "x-auth-token": token } }
+        const movieId = this.props.match.params.id
+
+        await axios.delete('/api/movie/comments/' + movieId, header)
+
+        const updatedComments = this.state.comments.filter(({ _id }) => _id !== id)
+        this.setState({ comments: updatedComments })
+    }
+
+    // Changes the focus value which tells the app to render a edit or reply form but only one at a time
+    // The id tells us which comment to focus on, type tells us which form we want to render
+    changeFocus = (id, type) => {
+        const updatedComments = this.state.comments.map(comment => {
+            comment.focus = comment._id === id ? type : null
+            return comment
+        })
+
+        this.setState({ comments: updatedComments })
+    }
+
+    resetFocus = () => {
+        const updatedComments = this.state.comments.map(comment => {
+            comment.focus = null
+            return comment
+        })
+
+        this.setState({ comments: updatedComments })
+    }
+
+    // Function for rendering reply, delete and edit buttons, and reply and edit forms underneath each comment
+    renderCommentButtons = ({ UCId, _id, isLoggedIn, focus, username }) => {
+        let commentButtons
+
+        if(!isLoggedIn) {
+            commentButtons = (
+                <div className="comment-functions">
+                    <p>Login/Register to reply</p>
+                </div>
+            )
+        } else if(this.props.user.UCId === UCId) {
+            commentButtons = (
+                <div className="comment-functions">
+                    <button onClick={ () => this.deleteComment(_id) }className="comment-delete">Delete</button> 
+                    <button onClick={() => this.changeFocus(_id, 'edit')} className="comment-edit">Edit</button>
+                </div>
+            )
+        } else if(focus === "reply") {
+            commentButtons = (
+                <form onSubmit={this.addComment} className="reply-form">
+                    <textarea name="comment" defaultValue={'@' + username + ' '} className="reply-input" />
+                    <div className="reply-buttons">
+                    <button type="button" onClick={this.resetFocus} className="reply-cancel">Cancel</button>
+                    <button className="reply-button">Submit Reply</button>
+                    </div>
+                </form>
+            )
+        } else {
+            commentButtons = (
+                <div className="comment-functions">
+                    <button onClick={() => this.changeFocus(_id, 'reply')} className="comment-reply">Reply</button> 
+                </div>
+            )
+        }
+
+        return commentButtons
     }
 
     render() {
@@ -114,7 +217,7 @@ export class ViewMovie extends Component {
                 {/* Add or delete to favourites button */}
                 <div className="favourites-button-container">
                     { this.renderFavouriteButton() }
-                    <p>Favourited: {favourited}</p>
+                    <h3 className="favourited">Favourited: {favourited}</h3>
                 </div>
 
                 <h2 className="view-info-title">Movie Info</h2>
@@ -167,21 +270,35 @@ export class ViewMovie extends Component {
 
                 {/* Where we display comments */}
                 <div className="comments-section">
-                    { 
+                    { /* The form that's rendered if user is logged in */
                         isLoggedIn ?  
                         <form onSubmit={this.addComment} className="comment-form">
                             <textarea name="comment" placeholder="Add Comment" className="comment-input" />
-                            <button className="comment-button">Comment</button>
+                            <button className="comment-button">Submit Comment</button>
                         </form>
-                        : null
+                        : <h2>Log in to comment.</h2>
                     }
                     <div className="comments-container">
-                        { comments.map(({ comment, UCId, _id, username }) => (
+                        <h3 className="comments-header">Comments ({comments.length})</h3>
+                        <hr/>
+                        { comments.map(({ comment, UCId, _id, username, focus }) => {
+                            if(focus === "edit") return (
+                                <form onSubmit={this.editComment(_id)} className="edit-form">
+                                    <textarea name="comment" defaultValue={comment} className="edit-input" />
+                                    <div className="edit-buttons">
+                                        <button onClick={this.resetFocus} type="button" className="edit-cancel">Cancel</button>
+                                        <button className="edit-submit">Submit Edit</button>
+                                    </div>
+                                </form>
+                            )
+
+                            return (
                             <div className="comments">
-                                <h4>{username} #{UCId}</h4>
-                                <p ucid={UCId} key={_id} className="comments">{comment}</p>
+                                <h4>{username} <span className="UCId">#{UCId}</span></h4>
+                                <p ucid={UCId} key={_id} className="comment">{comment}</p>
+                                    {this.renderCommentButtons({ UCId, _id, isLoggedIn, focus, username })}
                             </div>
-                        )) }
+                        )}) }
                     </div>
                 </div>
 
