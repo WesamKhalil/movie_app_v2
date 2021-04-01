@@ -201,6 +201,7 @@
     width: 100%;
     font-size: 1.15rem;
     min-height: 4rem;
+    margin-top: 10px;
     resize: vertical;
     padding: 7px;
 }

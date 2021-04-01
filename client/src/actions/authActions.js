@@ -8,6 +8,8 @@ export const login = (email, password, remember) => async (dispatch) => {
 
         remember ? localStorage.setItem('jwt', token) : sessionStorage.setItem('jwt', token)
 
+        console.log(localStorage.getItem("jwt") || sessionStorage.getItem("jwt"))
+
         dispatch({
             type: LOGIN_SUCCESS,
             payload: { username: first_name + ' ' + last_name, UCId }

@@ -8,7 +8,6 @@ const apiKey = '4769fe382f408f9f9d8c072498e10703'
 const image = 'https://image.tmdb.org/t/p/'
 const returnMovieUrl = (movieId) => `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`
 const returnActorsUrl = (movieId) => `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`
-const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt')
 
 // Todo:
 // Animate buttons.
@@ -76,6 +75,7 @@ export class ViewMovie extends Component {
     addComment = async (e) => {
         e.preventDefault()
 
+        const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt')
         const header = { headers: { "x-auth-token": token } }
 
         const movieId = this.props.match.params.id
@@ -109,6 +109,7 @@ export class ViewMovie extends Component {
     editComment = _id => async (e) => {
         e.preventDefault()
 
+        const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt')
         const header = { headers: { "x-auth-token": token } }
 
         const movieId = this.props.match.params.id
@@ -132,6 +133,7 @@ export class ViewMovie extends Component {
 
     // Function that makes an api call to delete a comment then deletes it in memory
     deleteComment = async (id) => {
+        const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt')
         const header = { data: { _id: id }, headers: { "x-auth-token": token } }
         const movieId = this.props.match.params.id
 
